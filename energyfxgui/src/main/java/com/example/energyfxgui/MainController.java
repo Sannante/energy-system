@@ -43,7 +43,7 @@ public class MainController {
         String end = endDateInput.getText().trim();
 
         if (start.isEmpty() || end.isEmpty()) {
-            outputArea.setText("Bitte Start- und Enddatum eingeben (z. B. 2025-04-10)");
+            outputArea.setText("Bitte Start- und Enddatum eingeben (z.B. 2025-04-10)");
             return;
         }
 
