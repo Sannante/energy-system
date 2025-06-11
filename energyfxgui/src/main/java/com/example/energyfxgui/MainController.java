@@ -9,6 +9,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class MainController {
 
@@ -33,10 +34,23 @@ public class MainController {
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenAccept(response -> javafx.application.Platform.runLater(() ->
-                        outputArea.setText(response.body())
-                ));
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        CurrentEnergy data = mapper.readValue(response.body(), CurrentEnergy.class);
+
+                        javafx.application.Platform.runLater(() ->
+                                outputArea.setText(
+                                        "Zeitpunkt: " + data.hour + "\n" +
+                                                "Community verbraucht: " + data.communityDepleted + " kWh\n" +
+                                                "Netzanteil: " + data.gridPortion + " kWh"
+                                ));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                });
     }
+
     @FXML
     private void loadHistoricalData() {
         String start = startDateInput.getText().trim();
