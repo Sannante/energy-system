@@ -6,5 +6,7 @@
     <file url="file://$PROJECT_DIR$/energyproducer/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/energyproducer/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/energyrestapi/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/energyuser/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/energyuser/src/main/resources" charset="UTF-8" />
   </component>
 </project>
