@@ -57,7 +57,7 @@ public class MainController {
         String end = endDateInput.getText().trim();
 
         if (start.isEmpty() || end.isEmpty()) {
-            outputArea.setText("Bitte Start- und Enddatum eingeben (z.B. 2025-04-10)");
+            outputArea.setText("Bitte Start- und Enddatum eingeben (z.B. 2025-06-11T13:00:00)");
             return;
         }
 
@@ -69,8 +69,25 @@ public class MainController {
                 .build();
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenAccept(response -> javafx.application.Platform.runLater(() ->
-                        outputArea.setText(response.body())));
-    }
+                .thenAccept(response -> {
+                    try {
+                        ObjectMapper mapper = new ObjectMapper();
+                        HistoricalEnergy[] data = mapper.readValue(response.body(), HistoricalEnergy[].class);
 
+                        StringBuilder sb = new StringBuilder();
+                        for (HistoricalEnergy entry : data) {
+                            sb.append("Zeitpunkt: ").append(entry.hour).append("\n")
+                                    .append("Erzeugt: ").append(entry.produced).append(" kWh\n")
+                                    .append("Verbraucht: ").append(entry.used).append(" kWh\n")
+                                    .append("Netzanteil: ").append(entry.grid).append(" kWh\n\n");
+                        }
+
+                        javafx.application.Platform.runLater(() -> outputArea.setText(sb.toString()));
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        javafx.application.Platform.runLater(() -> outputArea.setText("Fehler beim Verarbeiten der Daten."));
+                    }
+                });
+    }
 }
+

@@ -32,7 +32,7 @@ public class EnergyController {
             @RequestParam String end) {
 
         return jdbc.query(
-                "SELECT * FROM usage_table WHERE hour BETWEEN ? AND ? ORDER BY hour",
+                "SELECT * FROM usage_table WHERE hour BETWEEN ?::timestamp AND ?::timestamp ORDER BY hour",
                 new Object[]{start, end},
                 (rs, rowNum) -> new HistoricalEnergyDto(
                         rs.getTimestamp("hour").toLocalDateTime().toString(),
@@ -42,4 +42,5 @@ public class EnergyController {
                 )
         );
     }
+
 }
