@@ -4,19 +4,22 @@ Dieses Projekt ist ein verteiltes System zur Verwaltung von Energieproduktion un
 
 ---
 
-## 📦 Projektstruktur
+## 🧱 Projektstruktur
 
+```text
 energy-system/
-├── energyrestapi/ # Spring Boot REST API (JPA + Flyway)
-├── energyproducer/ # Simuliert Stromproduktion (RabbitMQ Producer)
-├── energyuser/ # Simuliert Stromverbrauch (RabbitMQ Producer)
-├── usageservice/ # Aggregiert PRODUCER/USER-Daten aus RabbitMQ
-├── energyfxgui/ # JavaFX GUI für Datenanzeige
-├── infrastructure/ # Docker Setup (PostgreSQL + RabbitMQ)
-└── docker-compose.yml # Docker Setup für Datenbank & Message Queue
-
+├── energyrestapi/       # Spring Boot REST API (JPA + Flyway)
+├── energyproducer/      # Simuliert Stromproduktion (RabbitMQ Producer)
+├── energyuser/          # Simuliert Stromverbrauch (RabbitMQ Producer)
+├── usageservice/        # Aggregiert PRODUCER/USER-Daten aus RabbitMQ
+├── energyfxgui/         # JavaFX GUI für Datenanzeige
+├── infrastructure/      # Docker Setup (PostgreSQL + RabbitMQ)
+└── docker-compose.yml   # Docker Setup für Datenbank & Message Queue
+```
 yaml
+
 Kopieren
+
 Bearbeiten
 
 ---
