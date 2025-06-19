@@ -8,6 +8,8 @@
         <outputRelativeToContentRoot value="true" />
         <module name="energyrestapi" />
         <module name="energyfxgui" />
+        <module name="energyproducer" />
+        <module name="energyuser" />
       </profile>
     </annotationProcessing>
   </component>
