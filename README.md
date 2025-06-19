@@ -23,7 +23,7 @@ energy-system/
 ## 🚀 Voraussetzungen
 
 - [Docker Desktop](https://www.docker.com/) installiert
-- Java 21 (z. B. via IntelliJ oder [Adoptium](https://adoptium.net/))
+- Java 21 (z. B. via IntelliJ)
 - Maven (`mvn`) oder Wrapper (`./mvnw`) installiert
 - IDE wie IntelliJ empfohlen
 
