@@ -6,13 +6,19 @@
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.ComboBox?>
 <VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/23.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.example.energyfxgui.MainController">
    <children>
       <Label prefHeight="23.0" prefWidth="268.0" text="Aktuelle Energie-Daten" />
-      <Button fx:id="loadButton" mnemonicParsing="false" onAction="#loadData" text="Laden" />
+      <Button fx:id="loadButton" mnemonicParsing="false" text="refresh" />
       <TextArea fx:id="outputArea" editable="false" prefHeight="200.0" prefWidth="200.0" />
-      <Button fx:id="loadHistoricalButton" mnemonicParsing="false" onAction="#loadHistoricalData" text="Historisch laden" />
-      <TextField fx:id="startDateInput" />
-      <TextField fx:id="endDateInput" />
+      <Button fx:id="loadHistoricalButton" mnemonicParsing="false" text="show history data" />
+      <DatePicker fx:id="startDatePicker" />
+      <ComboBox fx:id="startTimeBox" />
+
+      <DatePicker fx:id="endDatePicker" />
+      <ComboBox fx:id="endTimeBox" />
+
    </children>
 </VBox>

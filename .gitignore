@@ -1,0 +1,27 @@
+# === Java ===
+/target/
+*.class
+
+# === IntelliJ IDEA ===
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# === OS-spezifisch ===
+.DS_Store
+Thumbs.db
+
+# === Logs & temp ===
+*.log
+*.tmp
+
+# === IDE-spezifische Datenbankverknüpfungen ===
+*.meta
+*.Br2UaQ
+*.v2_src_
+
+# === Maven Wrapper ===
+/.mvn/
+mvnw
+mvnw.cmd

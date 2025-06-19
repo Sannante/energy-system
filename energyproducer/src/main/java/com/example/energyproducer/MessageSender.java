@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class MessageSender {
 
-    private static final String QUEUE_NAME = "energy-queue";
+    private static final String QUEUE_NAME = "energy.producer";
     private final ObjectMapper objectMapper = new ObjectMapper()
             .registerModule(new JavaTimeModule());
 
@@ -32,9 +32,14 @@ public class MessageSender {
 
             // Erzeuge KWh-Wert basierend auf Wetterfaktor
             LocalDateTime now = LocalDateTime.now();
-            double baseKwh = 0.002 + (0.004 - 0.002) * random.nextDouble();
+            double baseKwh = 0.02 + (0.06 - 0.02) * random.nextDouble(); // realistischer: 20–60 Wh
             double weatherFactor = WeatherSimulator.getWeatherFactor(now);
-            double kwh = Math.round(baseKwh * weatherFactor * 1000.0) / 1000.0;
+            double fluctuation = 0.8 + 0.4 * random.nextDouble(); // 0.8 – 1.2
+
+            double kwh = baseKwh * weatherFactor * fluctuation;
+            kwh = Math.round(kwh * 1000.0) / 1000.0; // runden auf 3 Nachkommastellen
+            if (kwh < 0.005) kwh = 0.005; // Mindestwert, falls alles sehr niedrig
+
 
             // Nachricht zusammenbauen
             ProducerMessage message = new ProducerMessage(

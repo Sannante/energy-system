@@ -1,3 +1,9 @@
 package com.example.energyrestapi.dto;
 
-public record CurrentEnergyDto(String hour, double communityDepleted, double gridPortion) {}
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+public record CurrentEnergyDto(
+        @JsonProperty("hour") String hour,
+        double communityDepleted,
+        double gridPortion
+) {}

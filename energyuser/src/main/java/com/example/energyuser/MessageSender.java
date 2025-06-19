@@ -11,7 +11,7 @@ import java.util.Random;
 
 public class MessageSender {
 
-    private static final String QUEUE_NAME = "energy-queue";
+    private static final String QUEUE_NAME = "energy.user";
     private final ObjectMapper objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
     private final Random random = new Random();
 
@@ -24,9 +24,13 @@ public class MessageSender {
 
             channel.queueDeclare(QUEUE_NAME, false, false, false, null);
 
-            double base = 0.001 + (0.004 - 0.001) * random.nextDouble();
-            double factor = UsageSimulator.getUsageFactor(LocalDateTime.now());
-            double kwh = Math.round(base * factor * 1000.0) / 1000.0;
+            double base = 0.02 + (0.05 - 0.02) * random.nextDouble(); // Basisverbrauch 0.02–0.05
+            double factor = UsageSimulator.getUsageFactor(LocalDateTime.now()); // z.B. tagsüber höher
+            double fluctuation = 0.8 + 0.4 * random.nextDouble(); // 0.8–1.2
+
+            double kwh = base * factor * fluctuation;
+            kwh = Math.round(kwh * 1000.0) / 1000.0;
+            if (kwh < 0.005) kwh = 0.005; // Mindestwert, um sinnvolle Werte zu garantieren
 
             UserMessage message = new UserMessage(
                     "USER",
