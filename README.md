@@ -80,7 +80,6 @@ energyfxgui – Desktop-Anwendung zur Anzeige und Analyse
 | ------------------------------------------ | ---------------------------------------------- |
 | `GET /energy/current`                      | Liefert aktuelle Prozentwerte (Community/Grid) |
 | `GET /energy/historical?start=...&end=...` | Liefert stündliche Werte für Zeitraum          |
-| `GET /energy/total?start=...&end=...`      | Liefert aufsummierte Werte im Zeitraum         |
 
 ---
 
