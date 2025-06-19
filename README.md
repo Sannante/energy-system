@@ -8,86 +8,147 @@ Dieses Projekt ist ein verteiltes System zur Verwaltung von Energieproduktion un
 
 ```text
 energy-system/
-├── energyrestapi/       # Spring Boot REST API (JPA + Flyway)
-├── energyproducer/      # Simuliert Stromproduktion (RabbitMQ Producer)
-├── energyuser/          # Simuliert Stromverbrauch (RabbitMQ Producer)
-├── usageservice/        # Aggregiert PRODUCER/USER-Daten aus RabbitMQ
-├── energyfxgui/         # JavaFX GUI für Datenanzeige
-├── infrastructure/      # Docker Setup (PostgreSQL + RabbitMQ)
-└── docker-compose.yml   # Docker Setup für Datenbank & Message Queue
+├── energyrestapi/             # Spring Boot REST API (JPA + Flyway)
+├── energyproducer/            # Simuliert Stromproduktion (RabbitMQ Producer)
+├── energyuser/                # Simuliert Stromverbrauch (RabbitMQ Producer)
+├── usageservice/              # Aggregiert PRODUCER/USER-Daten aus RabbitMQ
+├── currentpercentageservice/  # Berechnet Prozentwerte aus usage_table
+├── energyfxgui/               # JavaFX GUI für Datenanzeige
+├── infrastructure/            # Docker Setup (PostgreSQL + RabbitMQ)
+└── docker-compose.yml         # Docker Setup für Datenbank & Message Queue
 ```
-yaml
-
-Kopieren
-
-Bearbeiten
 
 ---
 
 ## 🚀 Voraussetzungen
 
-- [Docker](https://www.docker.com/) installiert und lauffähig
-- [Java 21](https://adoptium.net/) (z. B. über IntelliJ)
-- Maven-Unterstützung (wird via `mvnw` bereitgestellt)
-- IntelliJ IDEA empfohlen (kein Muss)
+- [Docker Desktop](https://www.docker.com/) installiert
+- Java 21 (z. B. via IntelliJ oder [Adoptium](https://adoptium.net/))
+- Maven (`mvn`) oder Wrapper (`./mvnw`) installiert
+- IDE wie IntelliJ empfohlen
 
 ---
 
-## 🔧 Projekt starten
+## :test_tube: Erste Schritte
 
 ### 1. Repository klonen
 
-git clone https://github.com/dein-user/energy-system.git
-cd energy-system
+git clone https://github.com/Sannante/energy-system.git
+cd energy-system 
 
-2. Docker-Container starten
-Kopieren
-Bearbeiten
+### 2. Docker-Infrastruktur starten
 docker compose up -d
-Das startet:
+🔧 Das startet:
 
-PostgreSQL unter localhost:5433
+PostgreSQL auf localhost:5433
 
-RabbitMQ unter localhost:5672 und Webinterface unter http://localhost:15672
-(Login: guest, Passwort: guest)
+RabbitMQ auf localhost:5672
 
-🧠 Anwendung starten
-Reihenfolge:
-energyrestapi → Startet das REST API + Flyway-Migrationen (legt Tabellen automatisch an)
+RabbitMQ Web UI: http://localhost:15672
+Login: guest, Passwort: guest
 
-usageservice → Aggregiert PRODUCER/USER-Daten stündlich in die Datenbank
+### 3. Datenbank vorbereiten (Flyway Migration)
 
-energyproducer → Sendet PRODUCER-Daten an RabbitMQ
+cd energyrestapi
+mvn spring-boot:run
 
-energyuser → Sendet USER-Daten an RabbitMQ
+✅ Dies legt automatisch die Tabellen usage_table und percentage_table an.
 
-(Optional) energyfxgui → Visualisiert aktuelle und historische Energiedaten
+👉 Danach kann das REST API gestoppt werden – die Tabellen bleiben bestehen.
 
-Alle Module sind eigenständig lauffähig und kommunizieren über RabbitMQ und PostgreSQL.
+---
 
-🗃️ Datenbank
-Name: energydb
+▶️ Startreihenfolge
+Jedes Modul kann unabhängig gestartet werden.
 
-User: disysuser
+energyproducer – sendet PRODUCER-Nachrichten an RabbitMQ
 
-Passwort: disyspw
+energyuser – sendet USER-Nachrichten an RabbitMQ
 
-Wird bei erstem Start automatisch über Flyway konfiguriert.
+usageservice – aggregiert PRODUCER/USER stündlich in die DB
+
+currentpercentageservice – berechnet community_depleted und grid_portion
+
+energyrestapi – REST API für GUI (liefert Daten aus DB)
+
+energyfxgui – Desktop-Anwendung zur Anzeige und Analyse
+
+---
+
+🔌 REST API Endpunkte
+| Endpoint                                   | Beschreibung                                   |
+| ------------------------------------------ | ---------------------------------------------- |
+| `GET /energy/current`                      | Liefert aktuelle Prozentwerte (Community/Grid) |
+| `GET /energy/historical?start=...&end=...` | Liefert stündliche Werte für Zeitraum          |
+| `GET /energy/total?start=...&end=...`      | Liefert aufsummierte Werte im Zeitraum         |
+
+---
+
+🗃️ Datenbankdetails
+| Konfiguration | Wert        |
+| ------------- | ----------- |
+| DB-Name       | `energydb`  |
+| Benutzer      | `disysuser` |
+| Passwort      | `disyspw`   |
+| Port          | `5433`      |
+
+Wird durch Flyway automatisch konfiguriert.
+
+---
 
 🐰 RabbitMQ
-Port: 5672 (AMQP)
+| Einstellung   | Wert                                             |
+| ------------- | ------------------------------------------------ |
+| AMQP-Port     | `5672`                                           |
+| Web UI        | [http://localhost:15672](http://localhost:15672) |
+| Benutzer / PW | `guest` / `guest` 
 
-Web UI: http://localhost:15672
+---
 
-Benutzer: guest
+💡 Beispielablauf
+1. Producer sendet z. B. {"type": "PRODUCER", "kwh": 0.03, ...}
 
-Passwort: guest
+2. User sendet z. B. {"type": "USER", "kwh": 0.05, ...}
 
-🛠️ Technologien
-Java 21
-Spring Boot 3.4
-JavaFX 23
-PostgreSQL (Docker)
-RabbitMQ (Docker)
-Flyway (Datenbankmigration)
-Maven
+3. UsageService summiert diese pro Stunde und schreibt in usage_table
+
+4. CurrentPercentageService verarbeitet die Aggregation und speichert Werte in percentage_table
+
+5. REST API stellt Endpunkte bereit
+
+6. JavaFX GUI ruft Endpunkte auf und zeigt Werte für Analysezwecke an
+
+---
+
+⚙️ Technologien
+- Java 21
+
+- Spring Boot 3.x
+
+- JavaFX 23
+
+- RabbitMQ (Docker)
+
+- PostgreSQL (Docker)
+
+- Flyway (Migrationen)
+
+- JPA (Datenzugriff)
+
+- Jackson (JSON)
+
+- Maven
+
+---
+
+🧑‍💻 Autoren
+- Massimo Linke – FH Technikum Wien
+- Michael Goeltinger - FH Technikum Wien
+- Ahmed Abu El Ella - FH Technikum Wien
+
+
+2025 – Distributed Systems 
+
+---
+
+ 
