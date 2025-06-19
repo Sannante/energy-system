@@ -34,6 +34,7 @@ energy-system/
 ### 1. Repository klonen
 
 git clone https://github.com/Sannante/energy-system.git
+
 cd energy-system 
 
 ### 2. Docker-Infrastruktur starten
