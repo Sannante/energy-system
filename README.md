@@ -35,10 +35,10 @@ energy-system/
 
 git clone https://github.com/Sannante/energy-system.git
 
-cd energy-system 
+CMD Befehl cd IdeaProjects/energy-system 
 
 ### 2. Docker-Infrastruktur starten
-docker compose up -d
+CMD cd IdeaProjects/energy-system/infrastructure/docker compose up -d
 🔧 Das startet:
 
 PostgreSQL auf localhost:5433
