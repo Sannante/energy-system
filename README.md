@@ -38,7 +38,11 @@ git clone https://github.com/Sannante/energy-system.git
 CMD Befehl cd IdeaProjects/energy-system 
 
 ### 2. Docker-Infrastruktur starten
-CMD cd IdeaProjects/energy-system/infrastructure/docker compose up -d
+Docker Desktop starten
+CMD cd IdeaProjects/energy-system/infrastructure
+docker compose up -d
+
+Wenn die Infrastruktur bereits ausgeführt wurde, dann in Docket Desktop bei infrastructure auf "Start" drücken.
 🔧 Das startet:
 
 PostgreSQL auf localhost:5433
@@ -50,6 +54,14 @@ Login: guest, Passwort: guest
 
 ### 3. Datenbank vorbereiten (Flyway Migration)
 
+Optional (Befehl um auf die Datenbank zuzugreifen):
+CMD cd IdeaProjects/energy-system/infrastructure
+docker exec -it infrastructure-database-1 psql -U disysuser -d energydb
+
+Überprüfung, ob Datenbank angelegt:
+\d (Wenn "Did not find any relations", dann keine Datenbankeinträge verfügbar = Gutes Zeichen)
+
+Wenn das Projekt ohne Intellij gestartet wird:
 cd energyrestapi
 mvn spring-boot:run
 
