@@ -33,37 +33,40 @@ energy-system/
 
 ### 1. Repository klonen
 
-git clone https://github.com/Sannante/energy-system.git
+- git clone https://github.com/Sannante/energy-system.git
 
-CMD Befehl cd IdeaProjects/energy-system 
+- CMD Befehl cd IdeaProjects/energy-system 
 
 ### 2. Docker-Infrastruktur starten
-Docker Desktop starten
-CMD cd IdeaProjects/energy-system/infrastructure
-docker compose up -d
+- Docker Desktop starten
+- CMD cd IdeaProjects/energy-system/infrastructure
+- docker compose up -d
 
-Wenn die Infrastruktur bereits ausgeführt wurde, dann in Docket Desktop bei infrastructure auf "Start" drücken.
+( Wenn die Infrastruktur bereits ausgeführt wurde, dann in Docker Desktop bei infrastructure auf "Start" drücken. )
+
 🔧 Das startet:
 
-PostgreSQL auf localhost:5433
+- PostgreSQL auf localhost:5433
 
-RabbitMQ auf localhost:5672
+- RabbitMQ auf localhost:5672
 
-RabbitMQ Web UI: http://localhost:15672
-Login: guest, Passwort: guest
+- RabbitMQ Web UI: http://localhost:15672
+(Login: guest, Passwort: guest)
 
 ### 3. Datenbank vorbereiten (Flyway Migration)
 
-Optional (Befehl um auf die Datenbank zuzugreifen):
-CMD cd IdeaProjects/energy-system/infrastructure
-docker exec -it infrastructure-database-1 psql -U disysuser -d energydb
+- Optional (Befehl um auf die Datenbank zuzugreifen):
 
-Überprüfung, ob Datenbank angelegt:
-\d (Wenn "Did not find any relations", dann keine Datenbankeinträge verfügbar = Gutes Zeichen)
+- CMD cd IdeaProjects/energy-system/infrastructure
+- docker exec -it infrastructure-database-1 psql -U disysuser -d energydb
+
+ -- Überprüfung, ob Datenbank angelegt:   \d --  
+
+(Wenn "Did not find any relations" ausgegeben wird, dann keine Datenbankeinträge verfügbar = Gutes Zeichen)
 
 Wenn das Projekt ohne Intellij gestartet wird:
-cd energyrestapi
-mvn spring-boot:run
+- cd energyrestapi
+- mvn spring-boot:run
 
 ✅ Dies legt automatisch die Tabellen usage_table und percentage_table an.
 
@@ -74,17 +77,17 @@ mvn spring-boot:run
 ▶️ Startreihenfolge
 Jedes Modul kann unabhängig gestartet werden.
 
-energyproducer – sendet PRODUCER-Nachrichten an RabbitMQ
+- energyproducer – sendet PRODUCER-Nachrichten an RabbitMQ
 
-energyuser – sendet USER-Nachrichten an RabbitMQ
+- energyuser – sendet USER-Nachrichten an RabbitMQ
 
-usageservice – aggregiert PRODUCER/USER stündlich in die DB
+- usageservice – aggregiert PRODUCER/USER stündlich in die DB
 
-currentpercentageservice – berechnet community_depleted und grid_portion
+- currentpercentageservice – berechnet community_depleted und grid_portion
 
-energyrestapi – REST API für GUI (liefert Daten aus DB)
+- energyrestapi – REST API für GUI (liefert Daten aus DB)
 
-energyfxgui – Desktop-Anwendung zur Anzeige und Analyse
+- energyfxgui – Desktop-Anwendung zur Anzeige und Analyse
 
 ---
 
@@ -159,7 +162,7 @@ Wird durch Flyway automatisch konfiguriert.
 - Ahmed Abu El Ella - FH Technikum Wien
 
 
-2025 – Distributed Systems 
+2025 – Distributed Systems - Gruppe C
 
 ---
 
