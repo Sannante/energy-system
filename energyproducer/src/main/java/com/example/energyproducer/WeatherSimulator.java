@@ -11,24 +11,24 @@ public class WeatherSimulator {
 
         double factor = 1.0;
 
-        // 🌙 Nacht – kaum Sonne
+        // Nacht – kaum Sonne
         if (hour < 6 || hour > 20) {
             factor *= 0.1;
         } else if (hour < 9 || hour > 17) {
             factor *= 0.4; // Sonnenauf-/untergang
         }
 
-        // 🏖️ Wochenende: mehr Sonne
+        // Wochenende: mehr Sonne
         if (dayOfWeek == 6 || dayOfWeek == 7) {
             factor *= 1.1;
         }
 
-        // 🌧️ Regen reduziert die Effizienz stark
+        // Regen reduziert die Effizienz stark
         if (isRaining) {
             factor *= 0.5;
         }
 
-        // 💨 Wind beeinflusst leicht (kann positiv sein bei Windenergie)
+        // Wind beeinflusst leicht (kann positiv sein bei Windenergie)
         if (windSpeed > 15) {
             factor *= 1.05; // starker Wind
         } else if (windSpeed < 3) {

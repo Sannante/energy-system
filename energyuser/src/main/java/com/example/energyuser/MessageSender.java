@@ -19,10 +19,10 @@ public class MessageSender {
         ConnectionFactory factory = new ConnectionFactory();
         factory.setHost("localhost");
 
-        try (Connection connection = factory.newConnection();
+        try (Connection connection = factory.newConnection(); //verbindung herstellen
              Channel channel = connection.createChannel()) {
 
-            channel.queueDeclare(QUEUE_NAME, false, false, false, null);
+            channel.queueDeclare(QUEUE_NAME, false, false, false, null); // gibts die queue mit dem namen schon
 
             double base = 0.02 + (0.05 - 0.02) * random.nextDouble(); // Basisverbrauch 0.02–0.05
             double factor = UsageSimulator.getUsageFactor(LocalDateTime.now()); // z.B. tagsüber höher

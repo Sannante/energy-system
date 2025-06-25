@@ -2,7 +2,7 @@ package com.example.energyfxgui;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-@JsonIgnoreProperties(ignoreUnknown = true) // <<< HIER
+@JsonIgnoreProperties(ignoreUnknown = true) // <<< unbekannte felder ignorieren
 public class CurrentEnergy {
     public String hour;
     public double communityDepleted;

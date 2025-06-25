@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.time.LocalDateTime;
 import java.util.Optional;
 
-public interface PercentageRepository extends JpaRepository<PercentageEntity, LocalDateTime> {
+public interface PercentageRepository extends JpaRepository<PercentageEntity, Long> {
     Optional<PercentageEntity> findByHour(LocalDateTime hour);
 }

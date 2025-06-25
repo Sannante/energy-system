@@ -11,8 +11,8 @@ public interface UsageRepository extends JpaRepository<UsageEntity, LocalDateTim
     List<UsageEntity> findByHourBetweenOrderByHourAsc(LocalDateTime start, LocalDateTime end);
     @Query("SELECT SUM(u.communityProduced), SUM(u.communityUsed), SUM(u.gridUsed) " +
             "FROM UsageEntity u WHERE u.hour BETWEEN :start AND :end")
-    Object[] sumAllBetweenHours(@Param("start") LocalDateTime start,
-                                @Param("end") LocalDateTime end);
+    Object sumAllBetweenHours(@Param("start") LocalDateTime start,
+                              @Param("end") LocalDateTime end);
 
 
 }

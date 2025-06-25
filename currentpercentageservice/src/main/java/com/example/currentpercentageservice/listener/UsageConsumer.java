@@ -20,7 +20,7 @@ public class UsageConsumer {
     @RabbitListener(queues = "aggregated.usage")
     public void receiveMessage(String message) {
         try {
-            System.out.println("🔔 Nachricht empfangen: " + message);  // <-- HIER siehst du eingehende Nachrichten
+            System.out.println("🔔 Nachricht empfangen: " + message);
             AggregatedUsageMessage usage = objectMapper.readValue(message, AggregatedUsageMessage.class);
             calculator.calculateAndSave(usage);
         } catch (Exception e) {
