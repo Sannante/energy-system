@@ -40,7 +40,7 @@ public class EnergyController {
 
     @GetMapping("/historical")
     public List<HistoricalEnergyDto> getHistorical(@RequestParam String start, @RequestParam String end) {
-        // Debug-Ausgabe (hilft dir zu sehen was ankommt)
+        // Debug-Ausgabe
         System.out.println("Start: " + start);
         System.out.println("End: " + end);
 
@@ -68,7 +68,7 @@ public class EnergyController {
         LocalDateTime startTime = LocalDateTime.parse(start).withSecond(0).withNano(0);
         LocalDateTime endTime = LocalDateTime.parse(end).withSecond(0).withNano(0);
 
-        Object[] result = usageRepository.sumAllBetweenHours(startTime, endTime);
+        Object[] result = (Object[]) usageRepository.sumAllBetweenHours(startTime, endTime);
 
         double produced = result[0] != null ? ((Number) result[0]).doubleValue() : 0.0;
         double used     = result[1] != null ? ((Number) result[1]).doubleValue() : 0.0;
