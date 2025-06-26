@@ -26,8 +26,10 @@ public class UsageAggregator {
         LocalDateTime hour = dto.datetime().withMinute(0).withSecond(0).withNano(0);
 
         UsageEntry entry = repository.findByHour(hour)
-                .orElse(new UsageEntry(hour));
+                .orElseGet(() -> repository.save(new UsageEntry(hour)));
 
+
+        // Berechnungslogik
         if ("PRODUCER".equalsIgnoreCase(dto.type())) {
             entry.setProduced(entry.getProduced() + dto.kwh());
         } else if ("USER".equalsIgnoreCase(dto.type())) {
@@ -40,11 +42,13 @@ public class UsageAggregator {
                 entry.setGrid(entry.getGrid() + gridNeed);
             }
         }
+
         System.out.println("Saving entry: " + entry.getHour() + " | produced=" + entry.getProduced() + " | used=" + entry.getUsed() + " | grid=" + entry.getGrid());
 
         repository.save(entry);
         sendAggregatedMessage(entry);
     }
+
 
     private void sendAggregatedMessage(UsageEntry entry) {
         try {
