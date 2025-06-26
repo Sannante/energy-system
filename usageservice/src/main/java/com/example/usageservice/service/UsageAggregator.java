@@ -25,11 +25,9 @@ public class UsageAggregator {
     public void process(EnergyMessageDto dto) {
         LocalDateTime hour = dto.datetime().withMinute(0).withSecond(0).withNano(0);
 
-        // Erst versuchen zu laden, sonst gleich erstellen UND speichern
-        UsageEntry entry = repository.findById(hour).orElseGet(() -> {
-            UsageEntry newEntry = new UsageEntry(hour);
-            return repository.save(newEntry);
-        });
+        UsageEntry entry = repository.findByHour(hour)
+                .orElseGet(() -> repository.save(new UsageEntry(hour)));
+
 
         // Berechnungslogik
         if ("PRODUCER".equalsIgnoreCase(dto.type())) {
